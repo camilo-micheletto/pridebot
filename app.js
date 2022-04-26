@@ -1,6 +1,9 @@
 require("dotenv").config();
 const { App } = require("@slack/bolt");
 const { parsedDoc } = require("./services/gsServices");
+const express = require('express')
+const eapp = express()
+const port = 3000
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -36,7 +39,6 @@ const applyListeners = (patterns) => {
       : {};
 
     app.message(regexPattern, async ({ message, client }) => {
-        console.log(JSON.stringify(message));
       try {
         await client.chat.postEphemeral({
           channel: message.channel,
@@ -86,3 +88,12 @@ const applyListeners = (patterns) => {
 
   console.log("⚡️ Bolt app is running!");
 })();
+
+eapp.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+eapp.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+
