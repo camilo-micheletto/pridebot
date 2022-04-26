@@ -1,9 +1,9 @@
 require("dotenv").config();
 const { App } = require("@slack/bolt");
 const { parsedDoc } = require("./services/gsServices");
-const express = require('express')
-const eapp = express()
-const port = 3000
+const express = require('express');
+const eapp = express();
+const port = 3000;
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
