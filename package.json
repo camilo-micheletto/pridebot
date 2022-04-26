@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@slack/bolt": "^3.11.0"
+    "@slack/bolt": "^3.11.0",
+    "google-spreadsheet": "^3.2.0",
+    "googleapis": "^39.2.0"
   },
   "devDependencies": {
     "dotenv": "^16.0.0"

@@ -1,8 +1,7 @@
 require("dotenv").config();
 const { App } = require("@slack/bolt");
-const patterns = require("./patterns.json");
+const { parsedDoc } = require("./services/gsServices");
 
-// Initializes your app with your bot token and signing secret
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -11,65 +10,78 @@ const app = new App({
   port: process.env.PORT || 3000,
 });
 
-for (let words of patterns) {
-  const { pattern, response, suggestion } = words;
-  let regexPattern = new RegExp(pattern, "gi");
-  const hasSuggestion = suggestion
-    ? {
-        type: "context",
-        elements: [
-          {
-            type: "mrkdwn",
-            text: "🌈 *Você pode dizer* " + `${suggestion}`,
-          },
-        ],
-      }
-    : {};
-
-  app.message(regexPattern, async ({ message, client }) => {
+const getPatterns = async () => {
     try {
-      await client.chat.postEphemeral({
-        channel: message.channel,
-        user: message.user,
-        blocks: [
-          {
-            type: "context",
-            elements: [
-              {
-                type: "mrkdwn",
-                text: `Olá <@${message.user}>!`,
-              },
-            ],
-          },
-          {
-            type: "context",
-            elements: [
-              {
-                type: "mrkdwn",
-                text: `💬 *Você disse* "${message.text}"`,
-              },
-            ],
-          },
-          {
-            type: "context",
-            elements: [
-              {
-                type: "mrkdwn",
-                text: "🤔 *Porque corrigir?* " + response,
-              },
-            ],
-          },
-          hasSuggestion,
-        ],
-        text: "Deu algo de errado com as nossas sugestões 😔",
-      });
-    } catch (error) {
-      console.error(error);
+        const doc = await parsedDoc();
+        applyListeners(doc);
+    } catch (err) {
+        console.log(err);
     }
-  });
-}
+};
+
+const applyListeners = (patterns) => {
+  for (let words of patterns) {
+    const { termo, explicacao, sugestoes } = words;
+    let regexPattern = new RegExp(termo, "gi");
+    const hasSuggestion = sugestoes
+      ? {
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: "🌈 *Você pode dizer* " + `${sugestoes}`,
+            },
+          ],
+        }
+      : {};
+
+    app.message(regexPattern, async ({ message, client }) => {
+        console.log(JSON.stringify(message));
+      try {
+        await client.chat.postEphemeral({
+          channel: message.channel,
+          user: message.user,
+          blocks: [
+            {
+              type: "context",
+              elements: [
+                {
+                  type: "mrkdwn",
+                  text: `Olá <@${message.user}>!`,
+                },
+              ],
+            },
+            {
+              type: "context",
+              elements: [
+                {
+                  type: "mrkdwn",
+                  text: `💬 *Você disse* "${message.text}"`,
+                },
+              ],
+            },
+            {
+              type: "context",
+              elements: [
+                {
+                  type: "mrkdwn",
+                  text: `🤔 *Porque corrigir?*  ${explicacao}`,
+                },
+              ],
+            },
+            hasSuggestion,
+          ],
+          text: "Deu algo de errado com as nossas sugestões 😔",
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+};
 
 (async () => {
+  await getPatterns();
   await app.start();
 
   console.log("⚡️ Bolt app is running!");
