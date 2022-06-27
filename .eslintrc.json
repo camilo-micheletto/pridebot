@@ -1,0 +1,17 @@
+
+{
+    "root": true,
+    "extends": [ "eslint:recommended" ],
+    "rules": {
+        "indent": ["error", "tab"],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+
+        // override configuration set by extending "eslint:recommended"
+
+        // disable rules from base configurations
+         "for-direction": "off"
+    },
+    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+}

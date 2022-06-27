@@ -1,5 +1,4 @@
 require("dotenv").config();
-require("./services/awsServices");
 const { App } = require("@slack/bolt");
 const { parsedDoc } = require("./services/gsServices");
 const express = require("express");
