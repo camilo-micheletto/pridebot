@@ -1,7 +1,4 @@
 name: Pipeline
-branding:
-  icon: "briefcase"
-  color: "gray-dark"
 
 on: [push]
 
