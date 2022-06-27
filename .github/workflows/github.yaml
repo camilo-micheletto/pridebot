@@ -26,6 +26,8 @@ jobs:
   test_file:
     runs-on: ubuntu-latest
     steps:
-      - name: Verify envfile
+      - name: Verify directory
+        uses: ./
+      - name: Verify if has file
         run: |
-          cat .env
+          ls -la
