@@ -27,6 +27,4 @@ jobs:
           echo "The run id is: $GITHUB_RUN_ID" 
           echo "The GitHub Actor's username is: $GITHUB_ACTOR"
           echo "The API key is:${{secrets.GOOGLE_EMAIL}}"
-
-          name: Lint # name of the action (displayed in the github interface)
  
