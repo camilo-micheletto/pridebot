@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - name: step 1
-        run: echo "The API key is:${{secrets.API_KEY}}"
         run: |
           echo "The run id is: $GITHUB_RUN_ID" 
           echo "The GitHub Actor's username is: $GITHUB_ACTOR"
+          echo "The API key is:${{secrets.API_KEY}}"
