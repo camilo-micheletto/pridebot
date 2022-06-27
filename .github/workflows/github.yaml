@@ -18,16 +18,13 @@ jobs:
           envkey_SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
           file_name: .env
           fail_on_empty: true
+      - name: Check if env exists
+        uses: andstor/file-existence-action@v1
+        with:
+          files: ".env"
       - name: Log job
         run: |
           echo "The run id is: $GITHUB_RUN_ID" 
           echo "The GitHub Actor's username is: $GITHUB_ACTOR"
           echo "The API key is:${{secrets.GOOGLE_EMAIL}}"
-  test_file:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Verify directory
-        uses: ./
-      - name: Verify if has file
-        run: |
-          ls -la
+
