@@ -1,0 +1,14 @@
+name: pipeline
+## Triggers the workflow on when there is a push, or 
+## pull request on the main branch
+on: [push] 
+
+jobs:
+  generate_environment_variables:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: step 1
+        run: echo "The API key is:${{secrets.API_KEY}}"
+        run: |
+          echo "The run id is: $GITHUB_RUN_ID" 
+          echo "The GitHub Actor's username is: $GITHUB_ACTOR"
