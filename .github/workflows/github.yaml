@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Generate environment variables
         uses: SpicyPizza/create-envfile@v1.3.0
-         with:
+        with:
           envkey_DEBUG: true
           envkey_GOOGLE_EMAIL: ${{ secrets.GOOGLE_EMAIL }}
           envkey_GOOGLE_KEY: ${{ secrets.GOOGLE_KEY }}
