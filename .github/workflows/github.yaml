@@ -1,14 +1,44 @@
 name: pipeline
-## Triggers the workflow on when there is a push, or 
+## Triggers the workflow on when there is a push, or
 ## pull request on the main branch
-on: [push] 
+on: [push]
 
 jobs:
   generate_environment_variables:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     steps:
-      - name: step 1
+      - name: Generate environment variables
+        uses: SpicyPizza/create-envfile@v1.3.0
+         with:
+          envkey_DEBUG: true
+          envkey_GOOGLE_EMAIL: ${{ secrets.GOOGLE_EMAIL }}
+          envkey_GOOGLE_KEY: ${{ secrets.GOOGLE_KEY }}
+          envkey_GOOGLE_SHEET: ${{ secrets.GOOGLE_SHEET }}
+          envkey_SLACK_APP_TOKEN: ${{ secrets.SLACK_APP_TOKEN }}
+          envkey_SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          envkey_SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
+          file_name: .env
         run: |
           echo "The run id is: $GITHUB_RUN_ID" 
           echo "The GitHub Actor's username is: $GITHUB_ACTOR"
-          echo "The API key is:${{secrets.API_KEY}}"
+          echo "The API key is:${{secrets.GOOGLE_EMAIL}}"
+  test-filename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Make envfile
+        uses: ./
+        with:
+          envkey_DEBUG: false
+          file_name: .other-file
+
+      - name: Verify envfile
+        run: |
+          TEST=$(cat <<-END
+            DEBUG=false
+          END
+          )
+          if [ "$TEST" != "$(cat .other-file)" ]
+          then
+              echo "ERR"
+          fi
