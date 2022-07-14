@@ -12,7 +12,7 @@ jobs:
       - name: PING - Dispatch infra event
         if: github.event.action != 'pong'
         run: |
-          curl -X POST https://api.github.com/repos/pride-bot-stack/actions-remote-dispatch-b/dispatches \
+          curl -X POST https://api.github.com/repos/PasseiDireto/pride-bot-stack/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.ACCESS_TOKEN_PRIDEBOT_STACK }} \
           --data '{"event_type": "ping", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
