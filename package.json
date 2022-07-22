@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node config/index.js && node app.js",
+    "config": "node config/index.js",
+    "start": "node app.js",
     "lint": "eslint ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
