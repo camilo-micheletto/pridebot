@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "config": "node config/index.js",
     "start": "node app.js",
     "lint": "eslint ./",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,6 +13,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-ssm": "^3.128.0",
     "@slack/bolt": "^3.11.0",
     "aws-sdk": "^2.1155.0",
     "dotenv": "^16.0.0",

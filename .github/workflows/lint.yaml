@@ -1,9 +1,10 @@
 name: Lint
 
-on: [pull-request, push]
-pull_request:
-  branches:
-    - master
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
 
 env:
   NODE_VERSION: 14
